@@ -1,10 +1,10 @@
 # FURIA CS Chat Experience
 
-Um chat interativo para fãs da FURIA CS:GO, oferecendo informações em tempo real sobre partidas, estatísticas de jogadores e dados do time.
+Um chat interativo para fãs da FURIA CS2, oferecendo informações em tempo real sobre partidas, estatísticas de jogadores e dados do time.
 
 ## 🎯 Sobre o Projeto
 
-O FURIA CS Chat Experience é uma aplicação web que simula um chat bot inteligente para fãs da FURIA CS:GO. O sistema permite que os usuários obtenham informações sobre o time através de uma interface conversacional intuitiva, incluindo dados em tempo real sobre partidas ao vivo.
+O FURIA CS Chat Experience é uma aplicação web que simula um chat bot inteligente para fãs da FURIA CS2. O sistema permite que os usuários obtenham informações sobre o time através de uma interface conversacional intuitiva, incluindo dados em tempo real sobre partidas ao vivo.
 
 ## ✨ Funcionalidades
 
@@ -14,6 +14,7 @@ O FURIA CS Chat Experience é uma aplicação web que simula um chat bot intelig
 - Suporte a múltiplos tipos de consultas
 - Indicador de digitação
 - Histórico de mensagens
+- Integração com IA para respostas personalizadas
 
 ### Comandos Disponíveis
 - `time atual` - Mostra o roster atual do time
@@ -30,6 +31,33 @@ O FURIA CS Chat Experience é uma aplicação web que simula um chat bot intelig
 - Feed de eventos (kills, rounds, bombas)
 - Design responsivo e moderno
 
+### 🤖 Integração com IA
+O sistema utiliza uma abordagem híbrida para respostas:
+
+1. **Respostas Estruturadas**
+   - Dados mockados para informações específicas
+   - Estatísticas e resultados de partidas
+   - Informações do roster
+   - Status de partidas ao vivo
+
+2. **Assistente IA**
+   - Respostas para perguntas gerais sobre o time
+   - Contexto histórico da FURIA
+   - Curiosidades e fatos interessantes
+   - Guia interativo para comandos disponíveis
+
+3. **Sistema de Fallback**
+   - Quando uma pergunta não se encaixa nos comandos estruturados
+   - A IA é acionada para fornecer uma resposta contextual
+   - Mantém o foco em assuntos relacionados à FURIA
+   - Sugere comandos disponíveis quando apropriado
+
+4. **Prompt Engineering**
+   - Script específico para guiar o comportamento da IA
+   - Foco exclusivo em assuntos relacionados à FURIA
+   - Evita desvios para outros tópicos
+   - Mantém o tom profissional e informativo
+
 ## 🛠️ Tecnologias Utilizadas
 
 ### Frontend
@@ -37,6 +65,12 @@ O FURIA CS Chat Experience é uma aplicação web que simula um chat bot intelig
 - Stitches (CSS-in-JS)
 - Vite
 - React Hooks
+
+### Backend & IA
+- OpenAI API
+- Sistema de prompts estruturados
+- Gerenciamento de contexto
+- Fallback inteligente
 
 ### Arquitetura
 - Clean Architecture
@@ -66,12 +100,18 @@ cd furia-chat-experience
 npm install
 ```
 
-3. Execute o projeto:
+3. Configure as variáveis de ambiente:
+```bash
+cp .env.example .env
+# Adicione sua chave da API OpenAI
+```
+
+4. Execute o projeto:
 ```bash
 npm run dev
 ```
 
-4. Acesse `http://localhost:5173` no seu navegador
+5. Acesse `http://localhost:5173` no seu navegador
 
 ## 📱 Responsividade
 
@@ -92,8 +132,12 @@ O projeto foi desenvolvido com foco em responsividade, funcionando perfeitamente
 
 1. Usuário envia mensagem
 2. Sistema processa a intenção
-3. Serviço apropriado é acionado
-4. Resposta é formatada e exibida
+3. Se for um comando estruturado:
+   - Retorna dados mockados
+4. Se for uma pergunta geral:
+   - Consulta a API de IA
+   - Processa a resposta
+   - Mantém o contexto da conversa
 5. Interface é atualizada em tempo real
 
 ## 🎮 Simulação de Dados
@@ -107,11 +151,14 @@ O projeto utiliza um sistema de mock data para simular:
 
 ## 🔜 Próximos Passos
 
-- Integração com API real de CS:GO
+- Integração com API real de CS2
 - Sistema de autenticação
 - Notificações push
 - Mais estatísticas e análises
 - Suporte a múltiplos idiomas
+- Melhorias no sistema de IA
+- Análise de sentimento das respostas
+- Personalização baseada no histórico do usuário
 
 ## 🤝 Contribuição
 
@@ -130,5 +177,6 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 🙏 Agradecimentos
 
 - FURIA Esports
-- Comunidade CS:GO
+- Comunidade CS2
+- OpenAI
 - Todos os contribuidores

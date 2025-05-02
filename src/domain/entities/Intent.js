@@ -9,13 +9,12 @@ export class Intent {
     UNKNOWN: 'UNKNOWN'
   };
 
-  constructor(type, confidence, entities = {}) {
+  constructor(type, data = {}) {
     this.type = type;
-    this.confidence = confidence;
-    this.entities = entities;
+    this.data = data;
   }
 
-  static create(type, entities = {}) {
-    return new Intent(type, 1.0, entities);
+  static create(type, data = {}) {
+    return new Intent(type, data);
   }
 } 

@@ -3,50 +3,42 @@ import { Intent } from '../../domain/entities/Intent';
 export class IntentProcessor {
   constructor() {
     this.patterns = {
-      [Intent.TYPES.GET_ROSTER]: [
-        /roster/i,
-        /players/i,
-        /team/i,
+      GET_ROSTER: [
         /time atual/i,
-        /quem (joga|está) no time/i,
+        /roster/i,
+        /elenco/i,
         /jogadores/i,
+        /lineup/i,
         /line-up/i,
-        /lineup/i
+        /line up/i
       ],
-      [Intent.TYPES.GET_LAST_MATCH]: [
-        /last match/i,
+      GET_LAST_MATCH: [
         /última partida/i,
         /último jogo/i,
-        /como foi o (último|ultimo) jogo/i,
         /resultado/i,
-        /último resultado/i
+        /placar/i,
+        /score/i
       ],
-      [Intent.TYPES.GET_NEXT_MATCH]: [
-        /next match/i,
+      GET_NEXT_MATCH: [
         /próxima partida/i,
         /próximo jogo/i,
-        /quando (é|sera|será) o próximo jogo/i,
+        /quando joga/i,
         /agenda/i,
-        /calendário/i,
-        /próximo/i
+        /calendário/i
       ],
-      [Intent.TYPES.GET_PLAYER_STATS]: [
-        /stats/i,
-        /estatísticas/i,
-        /como está jogando/i,
-        /desempenho/i,
-        /performance/i,
-        /estatistica/i
+      GET_PLAYER_STATS: [
+        /estatísticas (?:do|da) (.+)/i,
+        /stats (?:do|da) (.+)/i,
+        /k\/d (?:do|da) (.+)/i,
+        /rating (?:do|da) (.+)/i
       ],
-      [Intent.TYPES.GET_TEAM_RANKING]: [
+      GET_TEAM_RANKING: [
         /ranking/i,
         /posição/i,
-        /classificação/i,
-        /em que lugar está/i,
-        /posicao/i,
-        /classificacao/i
+        /lugar/i,
+        /classificação/i
       ],
-      [Intent.TYPES.GET_LIVE_MATCH]: [
+      GET_LIVE_MATCH: [
         /live/i,
         /ao vivo/i,
         /partida ao vivo/i,
@@ -89,18 +81,27 @@ export class IntentProcessor {
     return entities;
   }
 
-  processMessage(message) {
-    const entities = this.extractEntities(message);
-    const content = message.toLowerCase();
-
-    for (const [intentType, patterns] of Object.entries(this.patterns)) {
+  process(message) {
+    // Verifica cada tipo de intent
+    for (const [type, patterns] of Object.entries(this.patterns)) {
       for (const pattern of patterns) {
-        if (pattern.test(content)) {
-          return Intent.create(intentType, entities);
+        const match = message.match(pattern);
+        if (match) {
+          // Se for uma intent que precisa de dados adicionais (como nome do jogador)
+          if (type === 'GET_PLAYER_STATS' && match[1]) {
+            return {
+              type,
+              data: {
+                player: match[1].trim()
+              }
+            };
+          }
+          return { type };
         }
       }
     }
 
-    return Intent.create(Intent.TYPES.UNKNOWN);
+    // Se não encontrou nenhum padrão, retorna UNKNOWN
+    return { type: 'UNKNOWN' };
   }
 } 
